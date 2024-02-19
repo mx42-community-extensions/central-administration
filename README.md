@@ -1,4 +1,4 @@
-# Central Administration - Matrix42 Workspace Management Extension Management for Partners
+# Central Administration - Matrix42 WSM Extension Management for Partners
 
 ## Overview
 
