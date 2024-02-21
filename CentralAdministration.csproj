@@ -48,17 +48,22 @@
     <Compile Include="Properties\DependencyRegistrator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\02-01-0001 Example File.post" />
-    <None Include="LICENSE" />
+    <None Include="Config\02-01-0001 Central Administration Navigation Item.post" />
+    <None Include="LICENSE.md" />
     <None Include="README.md" />
     <None Include="Tools\Package.ps1" />
-    <None Include="Workspace\workspace.json" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Module\Controllers\ca-home.html" />
+    <Content Include="Module\module.css" />
     <Content Include="Tools\CreateSchemaFile.exe" />
-    <Content Include="Workspace\module.js" />
+    <TypeScriptCompile Include="Module\Controllers\CentralAdministrationHomeController.ts" />
+    <TypeScriptCompile Include="Module\module.ts" />
+    <None Include="package.json" />
+    <None Include="tsconfig.json" />
+    <TypeScriptCompile Include="webpack.config.ts" />
   </ItemGroup>
   <Target Name="M42Package" AfterTargets="AfterBuild" Condition="'$(Configuration)'=='Release'">
     <Exec Command="powershell.exe -ExecutionPolicy Unrestricted -Command &quot;&amp; { $env:ProjectDir = '$(ProjectDir)'; $env:OutputPath = '$(ProjectDir)$(OutputPath)'; &amp; '$(ProjectDir)\Tools\Package.ps1' }&quot;" />

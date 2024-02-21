@@ -1,7 +1,0 @@
-﻿{
-  "description": {
-    "name": "CentralAdministration",
-    "title": "Central Administration"
-  },
-  "resources": [ "module.js" ]
-}

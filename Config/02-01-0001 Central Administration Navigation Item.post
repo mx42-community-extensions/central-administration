@@ -1,0 +1,163 @@
+IF NOT EXISTS (SELECT [ID] FROM [PDRNavigationItemType] WHERE [ID]='0a826e63-92a1-c6ed-6e47-08dc321675d6')
+BEGIN
+  INSERT INTO [PDRNavigationItemType] ([ID]) VALUES ('0a826e63-92a1-c6ed-6e47-08dc321675d6') 
+END;
+
+IF NOT EXISTS (SELECT [ID] FROM [PDRNavigationItemClassBase] WHERE [Expression-ObjectID]='0a826e63-92a1-c6ed-6e47-08dc321675d6')
+BEGIN
+INSERT INTO [PDRNavigationItemClassBase]
+( [ID],
+  [Url], 
+  [Icon], 
+  [UsedInTypePDRNavigationItemType], 
+  [Name], 
+  [Description], 
+  [Title], 
+  [Position], 
+  [Disabled], 
+  [M42UserRequired], 
+  [OpenInNewWindow], 
+  [Structure], 
+  [ImplementationType], 
+  [Application], 
+  [DefaultFilter], 
+  [Enabled], 
+  [AvailableInSearch], 
+  [VisibilityCondition], 
+  [HideLeftSideNavigation], 
+  [HideIfNoChildAvailable], 
+  [ShowStructureInNavigation])
+VALUES
+( 'ed461698-f2cf-ee11-18ab-00155d6f92cd',
+  N'CentralAdministration', 
+  N'settings_applications', 
+  '0a826e63-92a1-c6ed-6e47-08dc321675d6', 
+  N'Central_Administration', 
+  NULL, 
+  N'Central Administration', 
+  1600, 
+  0, 
+  0, 
+  0, 
+  NULL, 
+  N'C', 
+  'f7e35986-46e1-e511-dd9b-74d02b9d869c', 
+  NULL, 
+  1, 
+  1, 
+  NULL, 
+  0, 
+  0, 
+  0 )
+END ELSE BEGIN
+UPDATE [PDRNavigationItemClassBase]
+SET
+  [Url]=N'CentralAdministration', 
+  [Icon]=N'settings_applications', 
+  [UsedInTypePDRNavigationItemType]='0a826e63-92a1-c6ed-6e47-08dc321675d6', 
+  [Name]=N'Central_Administration', 
+  [Description]=NULL, 
+  [Title]=N'Central Administration', 
+  [Position]=1600, 
+  [Disabled]=0, 
+  [M42UserRequired]=0, 
+  [OpenInNewWindow]=0, 
+  [Structure]=NULL, 
+  [ImplementationType]=N'C', 
+  [Application]='f7e35986-46e1-e511-dd9b-74d02b9d869c', 
+  [DefaultFilter]=NULL, 
+  [Enabled]=1, 
+  [AvailableInSearch]=1, 
+  [VisibilityCondition]=NULL, 
+  [HideLeftSideNavigation]=0, 
+  [HideIfNoChildAvailable]=0, 
+  [ShowStructureInNavigation]=0
+WHERE [Expression-ObjectID]='0a826e63-92a1-c6ed-6e47-08dc321675d6'
+END;
+
+IF NOT EXISTS (SELECT [ID] FROM [PDRControllerClassBase] WHERE [Expression-ObjectID]='0a826e63-92a1-c6ed-6e47-08dc321675d6')
+BEGIN
+INSERT INTO [PDRControllerClassBase]
+( [ID],
+  [Controller], 
+  [ControllerUrl], 
+  [ControllerAs], 
+  [UsedInTypePDRContentWidgetTypeBase], 
+  [UsedInTypePDRNavigationItemType], 
+  [UsedInTypePDRActionType], 
+  [ControllerParams])
+VALUES
+( 'ee461698-f2cf-ee11-18ab-00155d6f92cd',
+  N'ca.HomeController', 
+  N'ca-home.html', 
+  NULL, 
+  NULL, 
+  '0a826e63-92a1-c6ed-6e47-08dc321675d6', 
+  NULL, 
+  NULL )
+END ELSE BEGIN
+UPDATE [PDRControllerClassBase]
+SET
+  [Controller]=N'ca.HomeController', 
+  [ControllerUrl]=N'ca-home.html', 
+  [ControllerAs]=NULL, 
+  [UsedInTypePDRContentWidgetTypeBase]=NULL, 
+  [UsedInTypePDRNavigationItemType]='0a826e63-92a1-c6ed-6e47-08dc321675d6', 
+  [UsedInTypePDRActionType]=NULL, 
+  [ControllerParams]=NULL
+WHERE [Expression-ObjectID]='0a826e63-92a1-c6ed-6e47-08dc321675d6'
+END;
+
+IF NOT EXISTS (SELECT [ID] FROM [PDRAudienceClass] WHERE [Expression-ObjectID]='0a826e63-92a1-c6ed-6e47-08dc321675d6')
+BEGIN
+INSERT INTO [PDRAudienceClass]
+( [ID],
+  [UsedInTypePDRContentWidgetTypeDialog], 
+  [UsedInTypePDRContentWidgetTypeObjectDetails], 
+  [UsedInTypePDRDataQueryFilterType], 
+  [Unrestricted], 
+  [Configured], 
+  [UsedInTypePDRActionType], 
+  [UsedInTypePDRNavigationItemType], 
+  [ConsiderRelated], 
+  [UsedInTypePLSLWebServiceOperationType], 
+  [UsedInTypePLSLServiceTypeWebAPI], 
+  [UsedInTypePDRContentWidgetTemplateViewType], 
+  [UsedInTypeSVMEmailSignatureType], 
+  [StrictAdminControl], 
+  [UsedInTypePDRDataQueryType])
+VALUES
+( 'ef461698-f2cf-ee11-18ab-00155d6f92cd',
+  NULL, 
+  NULL, 
+  NULL, 
+  0, 
+  0, 
+  NULL, 
+  '0a826e63-92a1-c6ed-6e47-08dc321675d6', 
+  0, 
+  NULL, 
+  NULL, 
+  NULL, 
+  NULL, 
+  0, 
+  NULL )
+END ELSE BEGIN
+UPDATE [PDRAudienceClass]
+SET
+  [UsedInTypePDRContentWidgetTypeDialog]=NULL, 
+  [UsedInTypePDRContentWidgetTypeObjectDetails]=NULL, 
+  [UsedInTypePDRDataQueryFilterType]=NULL, 
+  [Unrestricted]=0, 
+  [Configured]=0, 
+  [UsedInTypePDRActionType]=NULL, 
+  [UsedInTypePDRNavigationItemType]='0a826e63-92a1-c6ed-6e47-08dc321675d6', 
+  [ConsiderRelated]=0, 
+  [UsedInTypePLSLWebServiceOperationType]=NULL, 
+  [UsedInTypePLSLServiceTypeWebAPI]=NULL, 
+  [UsedInTypePDRContentWidgetTemplateViewType]=NULL, 
+  [UsedInTypeSVMEmailSignatureType]=NULL, 
+  [StrictAdminControl]=0, 
+  [UsedInTypePDRDataQueryType]=NULL
+WHERE [Expression-ObjectID]='0a826e63-92a1-c6ed-6e47-08dc321675d6'
+END;

@@ -1,4 +1,6 @@
-﻿Write-Host "Starting packaging of the extension"
+﻿$ErrorActionPreference = "Stop"
+
+Write-Host "Starting packaging of the extension"
 
 $packageFolder = "$($env:OutputPath)Package\"
 $assembliesFolder = "$($packageFolder)Assemblies\"
@@ -22,6 +24,26 @@ $frontendFolder = "$($packageFolder)Files\WM\workspaces\CentralAdministration\"
 New-Item -ItemType Directory $frontendFolder -Force | Out-Null
 #Copy-Item "module.js" $frontendFolder
 
+if($(Start-Process -WorkingDirectory $env:ProjectDir -wait -PassThru -nonewwindow "npm" -ArgumentList @("install")).ExitCode -ne 0){
+    Write-Error "Frontend installation failed with exit code $($process.ExitCode)"
+}
+
+if($(Start-Process -WorkingDirectory $env:ProjectDir -wait -PassThru -nonewwindow "npm" -ArgumentList @("run-script", "build")).ExitCode -ne 0){
+    Write-Error "Frontend build failed with exit code $($process.ExitCode)"
+}
+
+Copy-item "$($env:ProjectDir)dist/module.js" $frontendFolder -Force | Out-Null
+
+@{
+  "description" = @{
+    "name" = "CentralAdministration"
+    "title" = "Central Administration"
+  }
+  "resources" = @( "module.js" )
+} | ConvertTo-Json | Out-File "$($frontendFolder)workspace.json" -Encoding utf8
+
+
+
 Write-Host "Copying schema files"
 $installFolder = "$($packageFolder)Install"
 New-Item -ItemType Directory $installFolder -Force | Out-Null
@@ -39,7 +61,7 @@ $version = (Get-Item "$($env:OutputPath)CentralAdministration.dll").VersionInfo.
 @{
     "Id" = "00000000-1337-1337-1337-000000000000"
     "Version" = $version
-    "LastUpdatedDate" =  $(Get-Date)
+    "LastUpdatedDate" =  $(Get-Date -Format s).ToString()
     "Description" =  "Central Management for partner extensions"
     "Prerequisites" =  @{
         "MinimalRequiredProductVersion" =  "12.0.3"
@@ -52,9 +74,9 @@ $version = (Get-Item "$($env:OutputPath)CentralAdministration.dll").VersionInfo.
         "MaintenanceMode" = $false
     }
     "Vendor" =  "Matrix42 Community Extensions"
-} | Out-File "$($packageFolder)package.json" -Encoding utf8
+} | ConvertTo-Json | Out-File "$($packageFolder)package.json" -Encoding utf8
 
-$packageZip = "$($env:OutputPath)CentralAdministration.zip"
+$packageZip = "$($env:OutputPath)CentralAdministration-$version.zip"
 Compress-Archive -Path "$packageFolder*" -DestinationPath $packageZip -Force | Out-Null
 
 #Optional cleanup
