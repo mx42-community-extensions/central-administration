@@ -1,5 +1,12 @@
 ﻿$ErrorActionPreference = "Stop"
 
+#########
+$AssemblyName = "CentralAdministration"
+$ExtensionName = "Central Administration"
+$ExtensionDescription = "Central Administration"
+$ExtensionId = "00000000-1337-1337-1337-000000000000"
+#########
+
 Write-Host "Starting packaging of the extension"
 
 $packageFolder = "$($env:OutputPath)Package\"
@@ -15,33 +22,32 @@ Write-Host "Copying assemblies"
     "$($assembliesFolder)ServiceRepository\BinaryComponents"
 ) | ForEach-Object {
     New-Item -ItemType Directory $_ -Force | Out-Null
-    Copy-Item "$($env:OutputPath)CentralAdministration.dll" $_
+    Copy-Item "$($env:OutputPath)$AssemblyName.dll" $_
 }
 
-Write-Host "Building frontend"
-#Todo: Frontend Build
-$frontendFolder = "$($packageFolder)Files\WM\workspaces\CentralAdministration\"
-New-Item -ItemType Directory $frontendFolder -Force | Out-Null
-#Copy-Item "module.js" $frontendFolder
+if(Test-Path -PathType Leaf "$($env:ProjectDir)package.json"){
+    Write-Host "Building frontend"
+    $frontendFolder = "$($packageFolder)Files\WM\workspaces\$AssemblyName\"
+    New-Item -ItemType Directory $frontendFolder -Force | Out-Null
 
-if($(Start-Process -WorkingDirectory $env:ProjectDir -wait -PassThru -nonewwindow "npm" -ArgumentList @("install")).ExitCode -ne 0){
-    Write-Error "Frontend installation failed with exit code $($process.ExitCode)"
+    if($(Start-Process -WorkingDirectory $env:ProjectDir -wait -PassThru -nonewwindow "npm" -ArgumentList @("install")).ExitCode -ne 0){
+        Write-Error "Frontend installation failed with exit code $($process.ExitCode)"
+    }
+
+    if($(Start-Process -WorkingDirectory $env:ProjectDir -wait -PassThru -nonewwindow "npm" -ArgumentList @("run-script", "build")).ExitCode -ne 0){
+        Write-Error "Frontend build failed with exit code $($process.ExitCode)"
+    }
+
+    Copy-item "$($env:ProjectDir)dist/module.js" $frontendFolder -Force | Out-Null
+
+    @{
+      "description" = @{
+        "name" = "$AssemblyName"
+        "title" = "$AssemblyName"
+      }
+      "resources" = @( "module.js" )
+    } | ConvertTo-Json | Out-File "$($frontendFolder)workspace.json" -Encoding utf8
 }
-
-if($(Start-Process -WorkingDirectory $env:ProjectDir -wait -PassThru -nonewwindow "npm" -ArgumentList @("run-script", "build")).ExitCode -ne 0){
-    Write-Error "Frontend build failed with exit code $($process.ExitCode)"
-}
-
-Copy-item "$($env:ProjectDir)dist/module.js" $frontendFolder -Force | Out-Null
-
-@{
-  "description" = @{
-    "name" = "CentralAdministration"
-    "title" = "Central Administration"
-  }
-  "resources" = @( "module.js" )
-} | ConvertTo-Json | Out-File "$($frontendFolder)workspace.json" -Encoding utf8
-
 
 
 Write-Host "Copying schema files"
@@ -57,16 +63,16 @@ Set-Location $packageFolder
 Set-Location $oldWorkingDirectory
 
 Write-Host "Creating extension manifest"
-$version = (Get-Item "$($env:OutputPath)CentralAdministration.dll").VersionInfo.ProductVersion
+$version = (Get-Item "$($env:OutputPath)$AssemblyName.dll").VersionInfo.ProductVersion
 @{
-    "Id" = "00000000-1337-1337-1337-000000000000"
+    "Id" = $ExtensionId
     "Version" = $version
     "LastUpdatedDate" =  $(Get-Date -Format s).ToString()
-    "Description" =  "Central Management for partner extensions"
+    "Description" =  $ExtensionDescription
     "Prerequisites" =  @{
         "MinimalRequiredProductVersion" =  "12.0.3"
     }
-    "Name" =  "Central Administration"
+    "Name" =  $ExtensionName
     "SetupDirectives" = @{
         "RecycleWebApplication" = $true
         "RestartM42WindowsServices" = $true
@@ -76,7 +82,7 @@ $version = (Get-Item "$($env:OutputPath)CentralAdministration.dll").VersionInfo.
     "Vendor" =  "Matrix42 Community Extensions"
 } | ConvertTo-Json | Out-File "$($packageFolder)package.json" -Encoding utf8
 
-$packageZip = "$($env:OutputPath)CentralAdministration-$version.zip"
+$packageZip = "$($env:OutputPath)$AssemblyName-$version.zip"
 Compress-Archive -Path "$packageFolder*" -DestinationPath $packageZip -Force | Out-Null
 
 #Optional cleanup
