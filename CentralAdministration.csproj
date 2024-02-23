@@ -31,7 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Matrix42.Hosting.Contracts">
+    <Reference Include="Matrix42.Hosting.Contracts, Version=12.0.3.3076, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>V:\Matrix42.Hosting.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Matrix42.Persistence.Contracts">
@@ -40,12 +41,19 @@
     <Reference Include="System" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Http">
+      <HintPath>V:\System.Web.Http.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BizLogic\CentralAdministrationService.cs" />
     <Compile Include="Contracts\ServiceContracts\ICentralAdministrationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\DependencyRegistrator.cs" />
+    <Compile Include="Contracts\ServiceContracts\ILicensingService.cs" />
+    <Compile Include="BizLogic\LicensingService.cs" />
+    <Compile Include="Services\LicensingController.cs" />
+    <Compile Include="Services\CentralAdministrationController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\02-01-0001 Central Administration Navigation Item.post" />

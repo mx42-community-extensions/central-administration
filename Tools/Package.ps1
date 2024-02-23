@@ -12,7 +12,9 @@ Write-Host "Starting packaging of the extension"
 $packageFolder = "$($env:OutputPath)Package\"
 $assembliesFolder = "$($packageFolder)Assemblies\"
 
-Remove-Item -Recurse $packageFolder -Force | Out-Null
+if(Test-Path -PathType Container $packageFolder){
+    Remove-Item -Recurse $packageFolder -Force | Out-Null
+}
 New-Item -ItemType Directory $packageFolder -Force | Out-Null
 
 Write-Host "Copying assemblies"

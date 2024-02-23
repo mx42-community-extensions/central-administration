@@ -1,4 +1,6 @@
-﻿using Matrix42.Hosting.Contracts;
+﻿using CentralAdministration.Contracts.ServiceContracts;
+using CentralAdministration.Services;
+using Matrix42.Hosting.Contracts;
 
 namespace CentralAdministration.Properties
 {
@@ -6,7 +8,8 @@ namespace CentralAdministration.Properties
     {
         public void Register(IDependencyContainer container, IDependencyResolver resolver)
         {
-            //Here be magic
+            container.RegisterSingletonType<ILicensingService, LicensingService>();
+            container.RegisterSingletonType<ICentralAdministrationService, CentralAdministrationService>();
         }
     }
 }
