@@ -1,4 +1,4 @@
-﻿using CentralAdministration.Contracts.ServiceContracts;
+﻿using CentralAdministration.Contracts.DataContracts.ServiceContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +17,10 @@ namespace CentralAdministration.Services
         {
             this.licensingService = licensingService;
         }
+
+        [HttpGet]
+        [Route("{extensionId}")]
+        public bool IsLicensed(Guid extensionId)
+            => licensingService.IsLicensed(extensionId);
     }
 }

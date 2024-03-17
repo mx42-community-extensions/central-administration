@@ -1,0 +1,29 @@
+﻿
+
+<div layout="row">
+
+</div>
+
+<div layout="row" class="extension-filters">
+    <md-input-container>
+        <label>{{ :: 'ca.home.categories_' | mxi18n }}</label>
+        <md-select ng-model="vm.selectedCategory" multiple>
+            <md-option ng-value="category.Value" ng-repeat="category in vm.categories">
+                {{ :: category.TranslationKey | mxi18n }}
+            </md-option>
+        </md-select>
+    </md-input-container>
+
+
+</div> 
+
+<div layout="row" class="ca-extension-list">
+    <ca-extension flex="" extension="extension" ng-repeat="extension in vm.extensions"></ca-extension>
+</div>
+
+
+<div style="border: solid 2px red;">
+
+    <button ng-click="vm.launchSetup()">Hey Button</button>
+
+</div>

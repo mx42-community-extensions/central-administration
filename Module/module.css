@@ -1,3 +1,9 @@
 ﻿.mx-shell-nav-item--Central_Administration md-icon {
     color: var(--mx-active-color);
 }
+
+
+.ca-extension-list ca-extension{
+    margin:5px;
+    padding:5px; 
+}

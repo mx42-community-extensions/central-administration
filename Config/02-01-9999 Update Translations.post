@@ -1,0 +1,115 @@
+﻿IF OBJECT_ID(N'tempdb..#CAFrontendTranslations') IS NOT NULL
+BEGIN
+DROP TABLE #CAFrontendTranslations
+END
+GO
+
+CREATE TABLE #CAFrontendTranslations (
+	ID uniqueidentifier,
+    TranslationKey VARCHAR(MAX),
+    English VARCHAR(MAX),
+    German VARCHAR(MAX),
+    Spanish VARCHAR(MAX),
+    French VARCHAR(MAX),
+    Italian VARCHAR(MAX),
+    Dutch VARCHAR(MAX),
+    Polish VARCHAR(MAX),
+    Portuguese VARCHAR(MAX)
+);
+------------------------------------------------------------------------
+
+
+INSERT INTO #CAFrontendTranslations
+VALUES 
+-- ID      Key		English		German  Spanish    French    Italian    Dutch    Polish    Portuguese		
+(NULL,'ca.home.categories_', 'ca.home.categories_', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(NULL,'ca.home.categories.controls', 'ca.home.categories.controls', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(NULL,'ca.home.categories.connectors', 'ca.home.categories.connectors', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(NULL,'ca.home.categories.workflowactivities', 'ca.home.categories.workflowactivities', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(NULL,'ca.home.categories.processtools', 'ca.home.categories.processtools', NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+
+------------------------------------------------------------------------
+DECLARE @key varchar(max)
+DECLARE getTranslations CURSOR FOR SELECT TranslationKey FROM #CAFrontendTranslations
+
+OPEN getTranslations
+FETCH NEXT FROM getTranslations into @key
+ print @@FETCH_STATUS
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	DECLARE @id uniqueidentifier, @english varchar(max), @german varchar(max), @spanish varchar(max), @french varchar(max), @italian varchar(max), @dutch varchar(max), @polish varchar(max), @portuguese varchar(max)
+	SELECT 
+		@id = ID,
+		@english = English,
+		@german = German,
+		@spanish = Spanish,
+		@french = French,
+		@italian = Italian,
+		@dutch = Dutch,
+		@polish = Polish,
+		@portuguese = Portuguese
+	FROM #CAFrontendTranslations WHERE TranslationKey = @key
+	
+	DECLARE @translationID uniqueidentifier = (SELECT ID FROM PDRLocalizationStringClass WHERE FrontendKey = @key)
+	IF(@translationID IS NOT NULL)
+	BEGIN
+		UPDATE PDRLocalizationStringClass SET Value = @english where ID = @translationID
+		UPDATE [PDRLocalizationStringClass-CI] SET Value = @english where Owner = @translationID AND LCID = 9
+	END
+	ELSE
+	BEGIN 
+		SET @translationID = @id
+		IF(@translationID IS NULL) SET @translationID = NEWID()
+		INSERT INTO [PDRLocalizationStringClass] (ID,FrontendKey, Value) VALUES (@translationID, @key, @english)
+		INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@english, 9, @translationID)
+	END
+	
+	IF(@german IS NOT NULL)
+		IF(EXISTS(SELECT 1 FROM [PDRLocalizationStringClass-CI] WHERE LCID = 7 AND Owner = @translationID))
+			UPDATE [PDRLocalizationStringClass-CI] SET Value = @german where LCID = 7 AND Owner = @translationID
+		ELSE
+			INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@german, 7, @translationID)
+			
+	IF(@spanish IS NOT NULL)
+		IF(EXISTS(SELECT 1 FROM [PDRLocalizationStringClass-CI] WHERE LCID = 10 AND Owner = @translationID))
+			UPDATE [PDRLocalizationStringClass-CI] SET Value = @spanish where LCID = 10 AND Owner = @translationID
+		ELSE
+			INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@spanish, 10, @translationID)
+
+	IF(@french IS NOT NULL)
+		IF(EXISTS(SELECT 1 FROM [PDRLocalizationStringClass-CI] WHERE LCID = 12 AND Owner = @translationID))
+			UPDATE [PDRLocalizationStringClass-CI] SET Value = @french where LCID = 12 AND Owner = @translationID
+		ELSE
+			INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@french, 12, @translationID)
+		
+	IF(@italian IS NOT NULL)
+		IF(EXISTS(SELECT 1 FROM [PDRLocalizationStringClass-CI] WHERE LCID = 16 AND Owner = @translationID))
+			UPDATE [PDRLocalizationStringClass-CI] SET Value = @italian where LCID = 16 AND Owner = @translationID
+		ELSE
+			INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@italian, 16, @translationID)
+		
+	IF(@dutch IS NOT NULL)
+		IF(EXISTS(SELECT 1 FROM [PDRLocalizationStringClass-CI] WHERE LCID = 19 AND Owner = @translationID))
+			UPDATE [PDRLocalizationStringClass-CI] SET Value = @dutch where LCID = 19 AND Owner = @translationID
+		ELSE
+			INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@dutch, 19, @translationID)
+		
+	IF(@polish IS NOT NULL)
+		IF(EXISTS(SELECT 1 FROM [PDRLocalizationStringClass-CI] WHERE LCID = 21 AND Owner = @translationID))
+			UPDATE [PDRLocalizationStringClass-CI] SET Value = @polish where LCID = 21 AND Owner = @translationID
+		ELSE
+			INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@polish, 21, @translationID)
+		
+	IF(@portuguese IS NOT NULL)
+		IF(EXISTS(SELECT 1 FROM [PDRLocalizationStringClass-CI] WHERE LCID = 22 AND Owner = @translationID))
+			UPDATE [PDRLocalizationStringClass-CI] SET Value = @portuguese where LCID = 22 AND Owner = @translationID
+		ELSE
+			INSERT INTO [PDRLocalizationStringClass-CI] (Value, LCID, Owner) VALUES (@portuguese, 22, @translationID)
+		
+   FETCH NEXT FROM getTranslations into @key
+END
+
+CLOSE getTranslations
+DEALLOCATE getTranslations
+
+DROP TABLE #CAFrontendTranslations;

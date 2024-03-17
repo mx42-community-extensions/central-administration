@@ -1,10 +1,8 @@
 ﻿import * as webpack from "webpack";
 const CopyWebpackOutputPlugin = require("copy-webpack-output-plugin")
 
-const production = process.env.BUILDCONFIGURATION && process.env.BUILDCONFIGURATION.toLowerCase() == "release";
-
 let config: webpack.Configuration = {
-    mode: production ? "production" : "development",
+    mode: "development",
     entry: {
         m42_module: './Module/module.ts'
     },  
@@ -45,17 +43,16 @@ let config: webpack.Configuration = {
     plugins: []
 };
 
-if (!production) {
-    config.devtool = 'inline-source-map';
+config.devtool = 'inline-source-map';
 
-    /*if (process.env.USERNAME == 'sven.mawby') {
-        config.plugins.push(
-            new CopyWebpackOutputPlugin([{
-                src: "dist\\module.js",
-                dest: "Z:\\WM\\workspaces\\CentralAdministration\\module.js"
-            }])
-        );
-    }*/
+if (process.env.USERNAME == 'sven.mawby') {
+    config.plugins.push( 
+        new CopyWebpackOutputPlugin([{
+            src: "dist\\module.js",
+            dest: "Y:\\CentralAdministration\\module.js"
+        }])
+    );
 }
+
 
 export default config;

@@ -4,7 +4,7 @@
 $AssemblyName = "CentralAdministration"
 $ExtensionName = "Central Administration"
 $ExtensionDescription = "Central Administration"
-$ExtensionId = "00000000-1337-1337-1337-000000000000"
+$ExtensionId = "859e5d52-cfe9-402b-8cb2-68cc6437d096"
 #########
 
 Write-Host "Starting packaging of the extension"
@@ -24,7 +24,7 @@ Write-Host "Copying assemblies"
     "$($assembliesFolder)ServiceRepository\BinaryComponents"
 ) | ForEach-Object {
     New-Item -ItemType Directory $_ -Force | Out-Null
-    Copy-Item "$($env:OutputPath)$AssemblyName.dll" $_
+    Copy-Item "$($env:OutputPath)$AssemblyName.dll*" $_
 }
 
 if(Test-Path -PathType Leaf "$($env:ProjectDir)package.json"){

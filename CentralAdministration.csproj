@@ -44,30 +44,76 @@
     <Reference Include="System.Web.Http">
       <HintPath>V:\System.Web.Http.dll</HintPath>
     </Reference>
+    <Reference Include="update4u.SPS.DataLayer, Version=12.0.3.3076, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>V:\update4u.SPS.DataLayer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BizLogic\CentralAdministrationService.cs" />
+    <Compile Include="BizLogic\ExtensionRepository.cs" />
+    <Compile Include="BizLogic\VendorManager.cs" />
+    <Compile Include="Contracts\DataContracts\Vendor.cs" />
+    <Compile Include="Contracts\DataContracts\License.cs" />
     <Compile Include="Contracts\ServiceContracts\ICentralAdministrationService.cs" />
+    <Compile Include="Contracts\DataContracts\RegistrationResult.cs" />
+    <Compile Include="Vendors\Labtagon.Designer.cs">
+      <DependentUpon>Labtagon.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Vendors\Innomea.Designer.cs">
+      <DependentUpon>Innomea.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Vendors\Template.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Template.resx</DependentUpon>
+    </Compile>
+    <TypeScriptCompile Include="Module\Components\ca-extension\ca-extension.ts" />
+    <TypeScriptCompile Include="Module\Contracts\License.ts" />
+    <TypeScriptCompile Include="Module\Contracts\Extension.ts" />
+    <TypeScriptCompile Include="Module\Services\ExtensionsService.ts" />
+    <TypeScriptCompile Include="Module\Services\ExtensionRepository.ts" />
+    <Compile Include="Contracts\ServiceContracts\IVendorManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\DependencyRegistrator.cs" />
     <Compile Include="Contracts\ServiceContracts\ILicensingService.cs" />
     <Compile Include="BizLogic\LicensingService.cs" />
+    <Compile Include="Contracts\DataContracts\Extension.cs" />
     <Compile Include="Services\LicensingController.cs" />
     <Compile Include="Services\CentralAdministrationController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Config\02-01-0001 Central Administration Navigation Item.post" />
+    <None Include="Config\02-01-9999 Update Translations.post" />
     <None Include="LICENSE.md" />
     <None Include="README.md" />
     <None Include="Tools\Package.ps1" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Vendors\Labtagon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Labtagon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vendors\Innomea.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Innomea.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vendors\Template.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Template.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="Module\Controllers\ca-home.html" />
+    <Content Include="Module\Components\ca-extension\ca-extension.html" />
+    <Content Include="Module\Controllers\ca-home\ca-home.html" />
     <Content Include="Module\module.css" />
     <Content Include="Tools\CreateSchemaFile.exe" />
-    <TypeScriptCompile Include="Module\Controllers\CentralAdministrationHomeController.ts" />
+    <TypeScriptCompile Include="Module\Controllers\ca-home\ca-home.ts" />
     <TypeScriptCompile Include="Module\module.ts" />
     <None Include="package.json" />
     <None Include="tsconfig.json" />
