@@ -120,4 +120,7 @@
   <data name="Example" xml:space="preserve">
     <value>Some example in Labtagon</value>
   </data>
+  <data name="RegistrationUrl" xml:space="preserve">
+    <value>https://rbaskets.in/pj8oq2r</value>
+  </data>
 </root>

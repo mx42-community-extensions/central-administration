@@ -68,5 +68,14 @@ namespace CentralAdministration.Vendors {
                 return ResourceManager.GetString("Example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://rbaskets.in/pj8oq2r.
+        /// </summary>
+        internal static string RegistrationUrl {
+            get {
+                return ResourceManager.GetString("RegistrationUrl", resourceCulture);
+            }
+        }
     }
 }

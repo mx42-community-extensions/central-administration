@@ -120,4 +120,7 @@
   <data name="Example" xml:space="preserve">
     <value>Some Example from the demo</value>
   </data>
+  <data name="RegisterEndpoint" xml:space="preserve">
+    <value />
+  </data>
 </root>

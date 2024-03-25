@@ -2,5 +2,7 @@
 {
     public class RegistrationResult
     {
+        public string RegistrationMessage { get; set; }
+
     }
 }

@@ -68,5 +68,14 @@ namespace CentralAdministration.Vendors {
                 return ResourceManager.GetString("Example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string RegisterEndpoint {
+            get {
+                return ResourceManager.GetString("RegisterEndpoint", resourceCulture);
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using CentralAdministration.Contracts.DataContracts;
 using CentralAdministration.Contracts.DataContracts.ServiceContracts;
+using Matrix42.Services.Description.Contracts;
 using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace CentralAdministration.Services
@@ -26,9 +28,11 @@ namespace CentralAdministration.Services
             => extensionRepository.GetInstalledExtensions();
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("Register")]
-        public RegistrationResult Register(Guid vendorId, string vendorCustomerReference)
-            => vendorManager.Register(vendorId, vendorCustomerReference);
+        [ServiceReturnType(typeof(RegistrationResult))]
+
+        public async Task<RegistrationResult> Register(Guid[] vendorIds, string vendorCustomerReference)
+            => await vendorManager.Register(vendorIds, vendorCustomerReference);
     }
 }
