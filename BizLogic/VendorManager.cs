@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using update4u.SPS.DataLayer;
@@ -21,30 +22,45 @@ namespace CentralAdministration.BizLogic
         };
 
         private HttpClient client = new HttpClient();
+        
 
-        public RegistrationResult Register(Guid[] vendorIds, string vendorCustomerReference)
+
+        public async Task<RegistrationResult> Register(Guid[] vendorIds, string vendorCustomerReference)
         {
-            RegistrationDetails reigstrationDetails = GetRegistrationDetails();
+            RegistrationResult result = new RegistrationResult();  
+            RegistrationDetail reigstrationDetails = GetRegistrationDetails();
             string body = JsonConvert.SerializeObject(reigstrationDetails);
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
-            ///
+            
             foreach (Guid vendorid in vendorIds)
             {
-                Vendor vendor = GetVendor(vendorid);
-                Uri url = vendor.GetRegistrationUrl();
-                client.PostAsync(url.ToString(), content);
+               Vendor vendor = GetVendor(vendorid);
+               Uri url = vendor.GetRegistrationUrl();
+               HttpResponseMessage response = await  client.PostAsync(url.ToString(), content);
+               string responseMessage = await response.Content.ReadAsStringAsync();
+               if (response.IsSuccessStatusCode)
+               {
+                    result.RegistrationMessage = responseMessage;
+                    return result;
+               }
+               else
+               {
+                     result.RegistrationMessage = $"Failed to send Registration to Vendor: {vendor.Name}\nResponse from registrationUrl was: {responseMessage} ";
+                    return result;
+               }
             }
-            throw new NotImplementedException();
+            result.RegistrationMessage = $"No valid Vendor was found";
+            return result;
         }
 
-        private RegistrationDetails GetRegistrationDetails()
+        private RegistrationDetail GetRegistrationDetails()
         {
             FragmentRequestBase fragmentRequest = new FragmentRequestBase(SPSDataEngineSchemaReader.ClassGetIDFromName("CAExtensionClassCentralAdministration"), ColumnSelectOption.All, null);
             fragmentRequest.IsSecured = update4u.SPS.DataLayer.Security.IsSecured.Unsecured;
             fragmentRequest.Where = "1=1";
             fragmentRequest.Load();
             if (fragmentRequest.DataSet.Tables[0].Rows.Count != 1) return null;
-            RegistrationDetails registrationDetails = new RegistrationDetails();
+            RegistrationDetail registrationDetails = new RegistrationDetail();
 
             DataRow row = fragmentRequest.DataSet.Tables[0].Rows[0];
             registrationDetails.ContactPhone = row.Field<string>("ContactPhone");

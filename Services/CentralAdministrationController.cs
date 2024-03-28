@@ -1,5 +1,6 @@
 ﻿using CentralAdministration.Contracts.DataContracts;
 using CentralAdministration.Contracts.DataContracts.ServiceContracts;
+using CentralAdministration.Contracts.ServiceContracts;
 using Matrix42.Services.Description.Contracts;
 using System;
 using System.Threading.Tasks;
@@ -12,14 +13,17 @@ namespace CentralAdministration.Services
     {
         private readonly IExtensionRepository extensionRepository;
         private readonly IVendorManager vendorManager;
+        private readonly ICentralAdministrationService centralAdministrationService;
 
         public CentralAdministrationController(
             IExtensionRepository extensionRepository,
-            IVendorManager vendorManager
+            IVendorManager vendorManager,
+            ICentralAdministrationService  centralAdministrationService
             )
         {
             this.extensionRepository = extensionRepository;
             this.vendorManager = vendorManager;
+            this.centralAdministrationService = centralAdministrationService;
         }
 
         [HttpGet]
@@ -32,7 +36,15 @@ namespace CentralAdministration.Services
         [Route("Register")]
         [ServiceReturnType(typeof(RegistrationResult))]
 
-        public async Task<RegistrationResult> Register(Guid[] vendorIds, string vendorCustomerReference)
-            => await vendorManager.Register(vendorIds, vendorCustomerReference);
+        public async Task<RegistrationResult> Register(Guid vendorId, string vendorCustomerReference)
+            => await vendorManager.Register(vendorId, vendorCustomerReference);
+
+
+        [HttpPost]
+        [Route("SaveRegistrationDetails")]
+       
+
+        public void SaveRegistrationDetails(RegistrationDetail registrationDetail)
+         =>  centralAdministrationService.SaveRegistrationDetails(registrationDetail);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CentralAdministration.Contracts.DataContracts
 {
-    public class RegistrationDetails
+    public class RegistrationDetail
     {
         public string ContactName { get; set; }
         public string ContactEmail { get; set; }

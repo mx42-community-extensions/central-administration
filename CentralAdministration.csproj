@@ -31,9 +31,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Labtagon.M42.Common">
+      <HintPath>X:\Common\Labtagon.M42.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Matrix42.Common, Version=12.0.3.3076, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>V:\Matrix42.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Matrix42.Hosting.Contracts, Version=12.0.3.3076, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>V:\Matrix42.Hosting.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Matrix42.Persistence">
+      <HintPath>V:\Matrix42.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="Matrix42.Persistence.Contracts">
       <HintPath>V:\Matrix42.Persistence.Contracts.dll</HintPath>
@@ -58,12 +68,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BizLogic\CentralAdministrationService.cs" />
+    <Compile Include="BizLogic\EntityBehaviour\CentralAdministrationRegistrationBehaviour.cs" />
     <Compile Include="BizLogic\ExtensionRepository.cs" />
     <Compile Include="BizLogic\VendorManager.cs" />
-    <Compile Include="Contracts\DataContracts\RegistrationDetails.cs" />
+    <Compile Include="Contracts\DataContracts\RegistrationDetail.cs" />
     <Compile Include="Contracts\DataContracts\Vendor.cs" />
     <Compile Include="Contracts\DataContracts\License.cs" />
     <Compile Include="Contracts\ServiceContracts\ICentralAdministrationService.cs" />
+    <Compile Include="Contracts\ServiceContracts\IExtensionRepository.cs" />
     <Compile Include="Contracts\DataContracts\RegistrationResult.cs" />
     <Compile Include="Vendors\Labtagon.Designer.cs">
       <DependentUpon>Labtagon.resx</DependentUpon>

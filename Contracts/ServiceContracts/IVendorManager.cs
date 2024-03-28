@@ -6,6 +6,6 @@ namespace CentralAdministration.Services
 {
     public interface IVendorManager
     {
-        Task<RegistrationResult> Register(Guid[] vendorIds, string vendorCustomerReference);
+        Task<RegistrationResult> Register(Guid vendorId, string vendorCustomerReference);
     }
 }

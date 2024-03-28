@@ -1,14 +1,14 @@
-﻿using CentralAdministration.Services;
+﻿using CentralAdministration.Contracts.DataContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CentralAdministration.Contracts.DataContracts.ServiceContracts
+namespace CentralAdministration.Contracts.ServiceContracts
 {
-    public interface IExtensionRepository
+    public interface ICentralAdministrationService
     {
-        Extension[] GetInstalledExtensions();
+        void SaveRegistrationDetails(RegistrationDetail registrationDetail);
     }
 }
