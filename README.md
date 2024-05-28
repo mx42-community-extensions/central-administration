@@ -26,6 +26,7 @@ Partners are invited to use and showcase their extensions and implement the vari
 ## Planned Features in later releases
   - Centralized Logging
   - Contact / Support form
+  - Central Data Layer Client Interface with Proxy / DB Implementation
 
 ## More details for partners
 If you are interested in contributing to the project feel free to contact us. 
